@@ -1,31 +1,28 @@
-/* Styles specific to MessagesComponent */
-h2 {
-  color: #333;
-}
+.app-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 
-input {
-  margin-right: 10px;
-}
+  button {
+    padding: 5px 10px;
+    background-color: #b86f66;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
 
-button {
-  padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
+  button:hover {
+    background-color: #e8b8b1;
+  }
 
-button:hover {
-  background-color: #0056b3;
-}
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  padding: 5px;
-  border-bottom: 1px solid #ddd;
+  li {
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+  }
 }
