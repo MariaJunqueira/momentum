@@ -1,8 +1,16 @@
 <div class="app-messages">
   <h2>Messages</h2>
+  <input [(ngModel)]="myClientId" placeholder="Enter your client ID" />
+  <button (click)="registerClientId()">Register Client ID</button>
+  <input [(ngModel)]="recipientId" placeholder="Enter recipient ID" />
   <input [(ngModel)]="newMessage" placeholder="Enter a message" />
   <button (click)="sendMessage()">Send Message</button>
   <ul>
-    <li *ngFor="let message of messages">{{ message | json }}</li>
+    <li *ngFor="let message of messages">
+      <div [ngClass]="{'message-sent': message.isSelf, 'message-received': !message.isSelf}">
+        <strong *ngIf="!message.isSelf &&  message.from">{{ message.from }}:</strong>
+        <span>{{ message.content }}</span>
+      </div>
+    </li>
   </ul>
 </div>

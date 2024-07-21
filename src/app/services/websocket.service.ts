@@ -7,13 +7,36 @@ import { Observable } from 'rxjs';
 })
 export class WebSocketService {
   private socket$: WebSocketSubject<any>;
+  public clientId: string = ''; // Store the client ID
 
   constructor() {
-    this.socket$ = webSocket('ws://localhost:8080'); // WebSocket URL
+    this.socket$ = webSocket('ws://localhost:8080');
+
+    // Handle messages from the server
+    this.socket$.subscribe(
+      (message) => {
+        if (message.type === 'system') {
+          this.clientId = message.clientId; // Store the client ID
+        }
+        console.log('Received message:', message);
+      },
+      (err) => console.error(err),
+      () => console.log('WebSocket connection closed')
+    );
   }
 
-  public sendMessage(msg: any): void {
-    this.socket$.next(msg); // Send as JSON string
+  public registerClientId(id: string): void {
+    const message = { type: 'register', clientId: id };
+    this.socket$.next(message); // Send registration message
+  }
+
+  public sendMessage(to: string, content: string): void {
+    const message = {
+      type: 'message',
+      to: to, // Recipient's client ID
+      content: content
+    };
+    this.socket$.next(message); // Send message
   }
 
   public getMessages(): Observable<any> {
