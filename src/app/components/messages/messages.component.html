@@ -1,16 +1,33 @@
 <div class="app-messages">
   <h2>Messages</h2>
-  <input [(ngModel)]="myClientId" placeholder="Enter your client ID" />
-  <button (click)="registerClientId()">Register Client ID</button>
-  <input [(ngModel)]="recipientId" placeholder="Enter recipient ID" />
-  <input [(ngModel)]="newMessage" placeholder="Enter a message" />
-  <button (click)="sendMessage()">Send Message</button>
+  <fieldset>
+    <legend>From:</legend>
+    <label for="myClientId">Your username: </label>
+    <input [(ngModel)]="myClientId" id="myClientId" placeholder="Enter your username" />
+    <button (click)="registerClientId()">Register username</button>
+  </fieldset>
+  <fieldset>
+    <legend>To:</legend>
+    <fieldset>
+      <legend>Receiver</legend>
+      <label for="recipientId">Receiver username: </label>
+      <input [(ngModel)]="recipientId" id="recipientId" placeholder="Enter receiver username" />
+    </fieldset>
+    <fieldset>
+      <legend>Message</legend>
+      <label for="message">Message: </label>
+      <input [(ngModel)]="newMessage" id="message" placeholder="Enter a message" />
+      <button (click)="sendMessage()">Send Message</button>
+    </fieldset>
+  </fieldset>
   <ul>
-    <li *ngFor="let message of messages">
-      <div [ngClass]="{'message-sent': message.isSelf, 'message-received': !message.isSelf}">
-        <strong *ngIf="!message.isSelf &&  message.from">{{ message.from }}:</strong>
-        <span>{{ message.content }}</span>
-      </div>
-    </li>
+    <ng-container *ngFor="let message of messages">
+      <li *ngIf="message.type === 'message'">
+        <div *ngIf="message.from && message.content">
+          <strong>{{ message.from }}: </strong>
+          <span>{{ message.content }}</span>
+        </div>
+      </li>
+    </ng-container>
   </ul>
 </div>

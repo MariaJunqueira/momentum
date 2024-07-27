@@ -53,8 +53,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       this.messages.push({
         type: 'message',
         from: this.webSocketService.clientId,
-        content: this.newMessage,
-        isSelf: true
+        content: this.newMessage
       });
       this.newMessage = '';
     } else {
