@@ -1,0 +1,26 @@
+<div class="app-messages">
+  <h2>WebSocket</h2>
+  <div *ngIf="myClientId">
+    <p>Your username: <strong>{{ myClientId }}</strong></p>
+  </div>
+  <fieldset>
+    <legend>Message:</legend>
+    <label for="recipientId">To: </label>
+    <input [(ngModel)]="recipientId" id="recipientId" placeholder="Enter receiver username" />
+    <br>
+    <label for="message">Message: </label>
+    <input [(ngModel)]="newMessage" id="message" placeholder="Enter a message" />
+    <br>
+    <button (click)="sendMessage()">Send Message</button>
+  </fieldset>
+  <ul>
+    <ng-container *ngFor="let message of messages">
+      <li *ngIf="message.type === 'message'">
+        <div *ngIf="message.from && message.content">
+          <strong>{{ message.from }}: </strong>
+          <span>{{ message.content }}</span>
+        </div>
+      </li>
+    </ng-container>
+  </ul>
+</div>

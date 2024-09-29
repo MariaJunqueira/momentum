@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { Subscription } from 'rxjs';
 import { WebSocketService } from '../../services/websocket.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-messages',
@@ -16,35 +16,22 @@ export class MessagesComponent implements OnInit, OnDestroy {
   private messagesSubscription!: Subscription;
   public messages: any[] = [];
   public newMessage: string = '';
-  public recipientId: string = ''; // ID of the recipient client
-  public myClientId: string = ''; // ID for the current client
+  public recipientId: string = '';
+  public myClientId: string = '';
 
-  constructor(private webSocketService: WebSocketService) { }
+  constructor(private webSocketService: WebSocketService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.myClientId = this.authService.getUser().username
+    // Subscribe to WebSocket messages
     this.messagesSubscription = this.webSocketService.getMessages().subscribe(
       (message) => {
-        if (message.type === 'message') {
-          this.messages.push({
-            ...message,
-            isSelf: message.from === this.webSocketService.clientId
-          });
-        } else {
-          this.messages.push(message);
-        }
+        this.messages.push(message);
         console.log('Received message:', message);
       },
       (err) => console.error(err),
       () => console.log('WebSocket connection closed')
     );
-  }
-
-  registerClientId(): void {
-    if (this.myClientId.trim()) {
-      this.webSocketService.registerClientId(this.myClientId);
-    } else {
-      console.warn('Client ID cannot be empty');
-    }
   }
 
   sendMessage(): void {
