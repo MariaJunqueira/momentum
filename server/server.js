@@ -52,7 +52,7 @@ app.post('/register', async (req, res) => {
   res.json({ message: 'User registered' });
 });
 
-app.post('/login', async (req, res) => {
+app.post('/signin', async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username, password });
   if (user) {

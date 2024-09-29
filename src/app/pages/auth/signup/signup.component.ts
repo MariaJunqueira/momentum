@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../../../services/auth/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -34,7 +34,7 @@ export class SignupComponent {
         (response) => {
           console.log('User signed up successfully:', response);
           this.errorMessage = null;
-          this.router.navigate(['/login']);
+          this.router.navigate(['/signin']);
         },
         (error) => {
           console.error('Signup error:', error);
